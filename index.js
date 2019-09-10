@@ -42,6 +42,20 @@ const server = app.listen(port, (err) => {
   console.info(`Listening on port: ${port}`);
 })
 
+// headersTimeout defauls to 40 seconds while server.timeout defaults to 120 seconds.
+// This causes requests sent after 40 seconds of idle to
+// immediately fail as Node closes the socket when it receives the request.
+// Load balancers, including an HTTP ELB, would generally send a 5xx response to the caller
+// when that happens.
+// https://nodejs.org/api/http.html#http_server_timeout
+server.headersTimeout = server.timeout;
+
+// keepaliveTimeout is the time a connection will remain open after sending a response
+// This needs to be greater than the idle connection timeout of any load balancer handling
+// connections for the application.  HTTP ELBs default to a 60 second idle timeout, so this needs
+// to be increased from the default of 5000 ms to 65000ms
+// https://nodejs.org/api/http.html#http_server_keepalivetimeout
+server.keepAliveTimeout = 65000;
 
 const shutdownConfig = {
   // delay (in ms) before process.exit is called after graceful cleanup has finished (if enabled)
@@ -64,6 +78,7 @@ function shutdownSignalHandler(message) {
   gracefulExitHandler(app, server, shutdownConfig);
 }
 
-// Handle shutdown signal
+// Connect signal handler for graceful shutdown signals
 process.on('SIGTERM', shutdownSignalHandler);
 process.on('SIGINT', shutdownSignalHandler);
+process.on('SIGHUP', shutdownSignalHandler);
