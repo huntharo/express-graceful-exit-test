@@ -61,9 +61,7 @@ const shutdownConfig = {
 // Signal handler
 function shutdownSignalHandler(message) {
   console.info(`Recieved process event: ${message}`);
-  if (message === 'shutdown') {
-    gracefulExitHandler(app, server, shutdownConfig);
-  }
+  gracefulExitHandler(app, server, shutdownConfig);
 }
 
 // Handle shutdown signal
