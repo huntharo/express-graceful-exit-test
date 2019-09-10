@@ -27,9 +27,7 @@ async function handlerSleepAsync(req, res) {
 }
 
 // Setup app routes
-const router = app.router();
-router.get('/sleep', handlerSleepAsync);
-app.use('/', router);
+app.get('/sleep', handlerSleepAsync);
 
 // Time to listen
 const port = 3000;
