@@ -6,6 +6,8 @@ const gracefulExitMiddleware = gracefulExit.middleware;
 const gracefulExitTrackConnections = gracefulExit.init;
 //import { gracefulExitHandler, middleware as gracefulExitMiddleware, init as gracefulExitTrackConnections } from 'express-graceful-exit';
 
+console.info(`PID: ${process.pid}`);
+
 app.use(gracefulExitMiddleware(app));
 
 // Track connection open/closing so we can gracefully close them on shutdown
@@ -31,7 +33,7 @@ app.get('/sleep', handlerSleepAsync);
 
 // Time to listen
 const port = 3000;
-app.listen(port, (err) => {
+const server = app.listen(port, (err) => {
   if (err) {
     console.error('Listening error', err);
     return;
@@ -56,10 +58,14 @@ const shutdownConfig = {
   suicideTimeout: 70000,
 };
 
-// Handle shutdown signal
-process.on('message', function (message) {
+// Signal handler
+function shutdownSignalHandler(message) {
+  console.info(`Recieved process event: ${message}`);
   if (message === 'shutdown') {
     gracefulExitHandler(app, server, shutdownConfig);
   }
-});
+}
 
+// Handle shutdown signal
+process.on('SIGTERM', shutdownSignalHandler);
+process.on('SIGINT', shutdownSignalHandler);
