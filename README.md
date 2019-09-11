@@ -4,6 +4,18 @@ This application demonstrates an issue with `express-graceful-exit` which connec
 
 This application is also used to test that the fix for the issue works correctly.
 
+# Impacted Versions of express-graceful-exit
+
+* Through version 0.4.2, at least
+* Through versions released up to, at least, 2019-09-10
+
+# PR for Fix
+
+* Issue Tracker
+  * https://github.com/emostar/express-graceful-exit/issues/14
+* Pull Request with Fix
+  * https://github.com/emostar/express-graceful-exit/pull/15
+
 # HTTP 1.1 Connection Headers
 
 Connection close in a response header signalls to the caller that the connection will have been closed after the response bytes have been sent, meaning that the connection can no longer be used to send additional requests.  This is similar to the way that HTTP 1.0 worked by default.
