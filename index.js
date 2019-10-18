@@ -62,6 +62,8 @@ const shutdownConfig = {
   exitDelay: 1000,
   force: true, // because were tracking open connections, we can force them to close
   log: true,
+  // We want the last request to run and return a Connection: close
+  performLastRequest: true,
   // time (in ms) to allow connections to be gracefully closed
   // if there are no connections open then this timeout has no effect
   // if all connections are closed before this timeout then shutdown proceeds to the next step

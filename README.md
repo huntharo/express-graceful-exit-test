@@ -53,6 +53,8 @@ https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.10
 
 * Confirm Node version
   * `node --version` - 10.x is confirmed to work with this application
+* Remove npm reference to express-graceful-exit published package
+  * `npm remove express-graceful-exit`
 * Checkout `express-graceful-exit`
   * `cd ..`
   * `git clone git@github.com:emostar/express-graceful-exit.git`
