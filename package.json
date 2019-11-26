@@ -2,6 +2,9 @@
   "name": "express-graceful-exit-test",
   "version": "1.0.0",
   "description": "",
+  "repository": {
+    "url": "https://github.com/huntharo/express-graceful-exit-test"
+  },
   "main": "index.js",
   "scripts": {
     "start": "node index.js",

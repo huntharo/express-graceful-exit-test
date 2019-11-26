@@ -30,7 +30,7 @@ async function handlerSleepAsync(req, res) {
 
 // Setup app routes
 app.get('/sleep', handlerSleepAsync);
-app.get('/fail', () => { res.status(500).send('NOT OK'); });
+app.get('/fail', (req, res) => { res.status(500).send('NOT OK'); });
 
 // Time to listen
 const port = 3000;
