@@ -30,6 +30,7 @@ async function handlerSleepAsync(req, res) {
 
 // Setup app routes
 app.get('/sleep', handlerSleepAsync);
+app.get('/fail', () => { res.status(500).send('NOT OK'); });
 
 // Time to listen
 const port = 3000;
@@ -57,11 +58,21 @@ server.headersTimeout = server.timeout;
 // https://nodejs.org/api/http.html#http_server_keepalivetimeout
 server.keepAliveTimeout = 65000;
 
+function errorCodeDuringShutdown() {
+  const err = new Error('Server is shutting down');
+  err.status = 502;
+  return err;
+}
+
 const shutdownConfig = {
   // delay (in ms) before process.exit is called after graceful cleanup has finished (if enabled)
   exitDelay: 1000,
   force: true, // because were tracking open connections, we can force them to close
   log: true,
+  // We want the last request to run and return a Connection: close
+  performLastRequest: true,
+  errorDuringExit: false,
+  getRejectionError: errorCodeDuringShutdown,
   // time (in ms) to allow connections to be gracefully closed
   // if there are no connections open then this timeout has no effect
   // if all connections are closed before this timeout then shutdown proceeds to the next step
