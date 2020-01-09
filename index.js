@@ -29,9 +29,12 @@ async function handlerSleepAsync(req, res) {
 }
 
 // Setup app routes
-app.get('/sleep', handlerSleepAsync);
-app.get('/fail', (req, res) => { res.status(500).send('NOT OK'); });
-app.get('/success', (req, res) => {
+app.get('*/sleep', handlerSleepAsync);
+app.get('*/fail', (req, res) => {
+  console.info('Got fail request');
+  res.status(500).send('NOT OK');
+});
+app.get('*/success', (req, res) => {
   console.info('Got success request');
   res.status(200).send('OK');
 });
