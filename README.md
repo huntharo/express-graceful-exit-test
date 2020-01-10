@@ -217,3 +217,4 @@ The `express-graceful-exit` library does a lot of the heavy lifting to setup to 
 Gracefully handling shutdown requires processing any last incoming requests and sending their responses, or responding to them, without running them, with an HTTP-level status code indicating that they can be retried (there is, unfortunately, no such code with 429 and 503 and Retry-After response header being the closest matches).
 
 It is a very minor change to `express-graceful-exit` to allow it to correctly handle both scenarios reproduced above.
+
