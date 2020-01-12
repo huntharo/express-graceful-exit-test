@@ -6,6 +6,8 @@ const gracefulExitMiddleware = gracefulExit.middleware;
 const gracefulExitTrackConnections = gracefulExit.init;
 //import { gracefulExitHandler, middleware as gracefulExitMiddleware, init as gracefulExitTrackConnections } from 'express-graceful-exit';
 
+const aws_region = process.env.AWS_REGION || 'notset';
+
 console.info(`PID: ${process.pid}`);
 
 app.use(gracefulExitMiddleware(app));
@@ -41,6 +43,7 @@ app.get('*/success', (req, res) => {
 app.get('*/nocache', (req, res) => {
   console.info('Got nocache request');
   res.header('Cache-Control', 'private, no-cache, no-store');
+  res.header('X-Region', aws_region);
   res.status(200).send('OK');
 });
 
