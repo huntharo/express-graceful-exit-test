@@ -38,6 +38,11 @@ app.get('*/success', (req, res) => {
   console.info('Got success request');
   res.status(200).send('OK');
 });
+app.get('*/nocache', (req, res) => {
+  console.info('Got nocache request');
+  res.header('Cache-Control', 'private, no-cache, no-store');
+  res.status(200).send('OK');
+});
 
 // Time to listen
 const port = 3000;
